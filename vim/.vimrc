@@ -2,6 +2,7 @@
 
 " Startup
 	set nocompatible " explicitly get out of vi-compatible mode
+    set backspace=indent,eol,start " Make sure backspace works as expected
    
 " Colours
 	syntax on " enable syntax highlighting
