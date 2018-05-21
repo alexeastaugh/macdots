@@ -9,12 +9,3 @@ CEXIT='\033[0m'
 function dots() {
     cd ~/macdots; echo -e ${GREEN}"You are now in${CEXIT} ${RED}${PWD}${CEXIT}"; ls -l
 }
-
-# generatekey - creates an rsa key with 4096 bytes and add the key name to the comments
-function sshgeneratekey() {
-    if [ $# -eq 0 ];then
-        echo -e ${RED}"Please supply a comment for the key file"${CEXIT}
-    else
-        ssh-keygen -t rsa -b 4096 -C "$@"
-    fi
-}
