@@ -30,5 +30,13 @@ export PATH="/usr/local/bin:$PATH"
 # Set Chef env variables for zsh
 eval "$(chef shell-init zsh)"
 
-# Add pyenv root dir at start
-eval "$(pyenv init -)"
+# pyenv
+if which pyenv > /dev/null; then
+eval "$(pyenv init -)";
+eval "$(pyenv virtualenv-init -)"
+fi
+
+# Akoova Functions
+export SCRIPT_DIR=$HOME/akoova/tools-repo
+source ${SCRIPT_DIR}/helpers/elastera_functions
+source ${SCRIPT_DIR}/helpers/elastera_completion

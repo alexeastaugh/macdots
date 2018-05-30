@@ -9,3 +9,12 @@ CEXIT='\033[0m'
 function dots() {
     cd ~/macdots; echo -e ${GREEN}"You are now in${CEXIT} ${RED}${PWD}${CEXIT}"; ls -l
 }
+
+# projects - Takes you to the projects folder and lists the contents
+projects() {
+    if [ -d ~/projects ];then
+        cd ~/projects; echo -e ${GREEN}"You are now in${CEXIT} ${RED}${PWD}${CEXIT}"; ls -l
+    else
+        echo -e ${RED}"Projects folder not yet created"${CEXIT}
+    fi
+}
