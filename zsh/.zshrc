@@ -6,15 +6,6 @@ export ZSH=/Users/alex/.oh-my-zsh
 ZSH_THEME="theunraveler"
 #ZSH_THEME="gianu"
 
-# Powerlevel9k theme
-#ZSH_THEME="powerlevel9k/powerlevel9k"
-# Powelevel9k tweaks
-#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir)
-#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(virtualenv vcs status root_indicator background_jobs)
-#POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
-#POWERLEVEL9K_SHORTEN_STRATEGY=truncate_folders
-#POWERLEVEL9K_SHORTEN_DELIMITER=""
-
 # Plugins ~/.oh-my-zsh/plugins/*
 plugins=(terraform git kitchen aws knife docker)
 
