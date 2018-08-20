@@ -18,3 +18,11 @@ projects() {
         echo -e ${RED}"Projects folder not yet created"${CEXIT}
     fi
 }
+
+# SSH to the jenkins master
+jump_to_jenkins() {
+    BASTION=$(ll_ec2 elproducto | grep Bastion | awk -F':' '{print $5}')
+    JENKINS=$(ll_ec2 elproducto | grep jenkins | awk -F':' '{print $5}')
+    ssh -A -t ec2-user@${BASTION} ssh -A centos@${JENKINS}
+}
+
