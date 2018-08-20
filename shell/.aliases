@@ -1,6 +1,6 @@
 # Alex Eastaugh ~/.aliases
 
-# aliases
+# system aliases
 alias aliases='grep "alias\|function" ~/.aliases | tail -n +3'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -28,3 +28,6 @@ alias greset-hard='git reset --hard HEAD^' # remove last commit AND all changes 
 
 # fun
 alias weather='curl wttr.in' # terminal weather forecast
+
+# Akoova
+alias le='ll_ec2'
