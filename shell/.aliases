@@ -25,9 +25,12 @@ alias gco='git checkout'
 alias gl='git log'
 alias greset='git reset --soft HEAD^' # remove last commit but keeps changes staged
 alias greset-hard='git reset --hard HEAD^' # remove last commit AND all changes from staging/files
+alias git-comment-ammend='git commit --amend'
 
 # fun
 alias weather='curl wttr.in' # terminal weather forecast
 
 # Akoova
+export SCRIPT_DIR=$HOME/akoova/tools-repo
 alias le='ll_ec2'
+alias ssh_admin="${SCRIPT_DIR}/helpers/ssh_admin.sh"

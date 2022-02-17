@@ -1,15 +1,27 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/alex/.oh-my-zsh
 
+# Updates
+zstyle ':omz:update' mode reminder
+
 # Theme
 #ZSH_THEME="random" # lucky dip  
 ZSH_THEME="theunraveler"
 
 # Plugins ~/.oh-my-zsh/plugins/*
-plugins=(vagrant terraform git kitchen aws knife docker)
+plugins=(
+    vagrant
+    terraform
+    git
+    kitchen
+    aws
+    knife
+    docker
+)
 
 # Aliases and Functions
 source $ZSH/oh-my-zsh.sh
+export PATH="/usr/local/opt/awscli@1/bin:$PATH"
 
 # User configuration
 source $HOME/.aliases
@@ -17,6 +29,7 @@ source $HOME/.functions
 
 # Path to brew install applications
 export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
 
 # Set Chef env variables for zsh
 eval "$(chef shell-init zsh)"
@@ -26,6 +39,10 @@ if which pyenv > /dev/null; then
 eval "$(pyenv init -)";
 eval "$(pyenv virtualenv-init -)"
 fi
+
+# Make bash autocompletion work
+autoload bashcompinit
+bashcompinit
 
 # Akoova Functions
 export SCRIPT_DIR=$HOME/akoova/tools-repo
@@ -44,3 +61,5 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 # aws-sam-cli
 USER_BASE_PATH=$(python -m site --user-base)
 export PATH=$PATH:$USER_BASE_PATH/bin
+
+# Datadog local testing keys

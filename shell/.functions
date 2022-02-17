@@ -19,6 +19,67 @@ projects() {
     fi
 }
 
+# Move up the dir structure easily
+up() {
+    times=$1
+    while [ "$times" -gt "0" ]; do
+        cd ..
+        times=$(($times - 1))
+    done
+}
+
+# Auto extract any type of file
+extract() {
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xvjf $1    ;;
+      *.tar.gz)    tar xvzf $1    ;;
+      *.tar.xz)    tar Jxvf $1    ;;
+      *.bz2)       bunzip2 $1     ;;
+      *.rar)       rar x $1       ;;
+      *.gz)        gunzip $1      ;;
+      *.tar)       tar xvf $1     ;;
+      *.tbz2)      tar xvjf $1    ;;
+      *.tgz)       tar xvzf $1    ;;
+      *.zip)       unzip -d `echo $1 | sed 's/\(.*\)\.zip/\1/'` $1;;
+      *.Z)         uncompress $1  ;;
+      *.7z)        7z x $1        ;;
+      *)           echo "don't know how to extract '$1'" ;;
+    esac
+  else
+    echo "'$1' is not a valid file!"
+  fi
+}
+##############
+### Akoova ###
+##############
+
+# Get the IP of the Origin
+ak_origin() {
+    if [[ $# != 2 ]] ; then
+        echo 'Please provide client and env i.e ak_origin <client> <env>'
+    else
+        ORIGIN_IP=$(dig +short origin-$2.$1.akoova.cloud)
+        echo $ORIGIN_IP
+    fi
+}
+
+# Measure response time of site using cURL
+ak_response_time() {
+    if [[ $# -eq 0 ]] ; then
+        echo "Please provide client i.e ak_response_time <client>"
+    else
+        curl -I -w "@/Users/alex/Dropbox/Akoova/curl-format.txt" -o /dev/null -s https://www.$1
+    fi
+}
+
+# Measure response time of site using cURL of origin
+ak_response_time_origin() {
+    ORIGIN_IP=$(ak_origin $1 $2 | head -n1)  
+    curl -I -w "@/Users/alex/Dropbox/Akoova/curl-format.txt" -o /dev/null \
+    -s --resolve www.$1.co.uk:443:$ORIGIN_IP https://www.$1.co.uk/
+}
+
 # SSH to the jenkins master
 jump_to_jenkins() {
     BASTION=$(ll_ec2 elproducto | grep Bastion | awk -F':' '{print $5}')
@@ -26,3 +87,17 @@ jump_to_jenkins() {
     ssh -A -t ec2-user@${BASTION} ssh -A centos@${JENKINS}
 }
 
+# get the ID of an AWS account in the config
+aws-id() {
+    aws --profile $1 sts get-caller-identity --query Account --output text
+}
+
+# Get SSM Parameters by path
+ssm_params_by_path() {
+    aws --profile="$1" ssm get-parameters-by-path --recursive --path /client/"$1"/"$2"/ --with-decryption --query "Parameters[*].[Name,Value]" --output table
+}
+
+# usage: "ll_ec2 <client>"
+ll_ec2 () {
+    aws --profile $1 ec2 describe-instances | jq -r '.Reservations[].Instances[] | select(.State.Name == "running") | "\(.LaunchTime) \(.InstanceId) (\(.ImageId)) \(.InstanceType): \(.Tags[] | select(.Key == "Name") | .Value) - \(.PublicIpAddress) eth0:\(.PrivateIpAddress) \(.Placement.AvailabilityZone)"'
+}
